@@ -10,4 +10,9 @@ RUN sudo apt --assume-yes install openjdk-8-jre-headless wget unzip
 # Download McMyAdmin
 RUN wget http://mcmyadmin.com/Downloads/etc.zip -P /usr/local
 RUN unzip /usr/local/etc.zip && rm /usr/local/etc.zip
-https://mcmyadmin.com/#/download
+RUN mkdir /McMyAdmin
+WORKDIR /McMyAdmin
+RUN wget http://mcmyadmin.com/Downloads/MCMA2_glibc26_2.zip
+RUN unzip MCMA2_glibc26_2.zip
+RUN rm MCMA2_glibc26_2.zip
+./MCMA2_Linux_x86_64 -setpass [YOURPASSWORD] -configonly
