@@ -104,8 +104,12 @@ RUN touch /McMyAdmin/Minecraft/eula.txt &&
     "eula=true" >> /McMyAdmin/Minecraft/eula.txt
 
 # Configure McMyAdmin
-ADD scripts/configure_mcma.sh .
-RUN ./configure_mcma.sh
+ADD scripts/configure_mcma.py .
+RUN python configure_mcma.py
+
+# Configure Minecraft server
+ADD scripts/configure_minecraft.py .
+RUN python configure_minecraft.py
 
 
 
