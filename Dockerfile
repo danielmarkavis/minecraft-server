@@ -95,8 +95,8 @@ RUN unzip MCMA2_glibc26_2.zip
 RUN rm MCMA2_glibc26_2.zip
 
 # Run initial setup for McMyAdmin
-ADD configure_mcma.sh .
-RUN ./configure_mcma.sh
+ADD scripts/initialise_mcma.sh .
+RUN ./initialise_mcma.sh
 
 # Agree to EULA
 #RUN sed -i 's/eula=false/eula=true/g' /McMyAdmin/Minecraft/eula.txt
@@ -104,7 +104,8 @@ RUN touch /McMyAdmin/Minecraft/eula.txt &&
     "eula=true" >> /McMyAdmin/Minecraft/eula.txt
 
 # Configure McMyAdmin
-RUN sed -i 's/eula=false/eula=true/g' /McMyAdmin/Minecraft/eula.txt
+ADD scripts/configure_mcma.sh .
+RUN ./configure_mcma.sh
 
 
 
