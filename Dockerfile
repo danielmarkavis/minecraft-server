@@ -19,7 +19,7 @@ ENV ENABLE_COMMAND_BLOCK=false
 ENV ENABLE_QUERY=false
 ENV GENERATOR_SETTINGS=
 ENV LEVEL_NAME=WORLD
-ENV MOTD=A Minecraft Server
+ENV MOTD="A Minecraft Server"
 ENV QUERY.PORT=25565
 ENV PVP=true
 ENV GENERATE_STRUCTURES=true
@@ -66,7 +66,9 @@ RUN apt --assume-yes update
 RUN apt --assume-yes install openjdk-8-jre-headless \
                                   wget \
                                   unzip \
-                                  expect
+                                  expect \
+                                  python3 \
+                                  screen
 
 # Set JAVA_HOME environment variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
@@ -95,21 +97,23 @@ RUN unzip MCMA2_glibc26_2.zip
 RUN rm MCMA2_glibc26_2.zip
 
 # Run initial setup for McMyAdmin
-ADD scripts/initialise_mcma.sh .
-RUN ./initialise_mcma.sh
+#ADD scripts/initialise_mcma.sh .
+#ADD scripts/initialise_mcma.exp .
+#RUN ./initialise_mcma.sh
+#RUN screen -X at /McMyAdmin/MCMA2_Linux_x86_64 -setpass $MCMA_PASSWORD -configonly stuff y
 
-# Agree to EULA
+## Agree to EULA
 #RUN sed -i 's/eula=false/eula=true/g' /McMyAdmin/Minecraft/eula.txt
-RUN touch /McMyAdmin/Minecraft/eula.txt &&
-    "eula=true" >> /McMyAdmin/Minecraft/eula.txt
+##RUN touch /McMyAdmin/Minecraft/eula.txt
+##RUN echo "eula=true" >> /McMyAdmin/Minecraft/eula.txt
 
-# Configure McMyAdmin
-ADD scripts/configure_mcma.py .
-RUN python configure_mcma.py
+## Configure McMyAdmin
+#ADD scripts/configure_mcma.py .
+#RUN python3 configure_mcma.py
 
-# Configure Minecraft server
-ADD scripts/configure_minecraft.py .
-RUN python configure_minecraft.py
+## Configure Minecraft server
+#ADD scripts/configure_minecraft.py .
+#RUN python3 configure_minecraft.py
 
 
 

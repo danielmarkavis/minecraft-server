@@ -22,4 +22,4 @@ docker images prune
 
 ## All in one
 docker stop mc && docker rm mc && docker image rm mc && docker images prune
-docker build -t mc . && docker run -dit --name mc mc && docker exec -it mc /bin/bash
+docker build -t mc . && docker run -dit --name mc -e WEBSERVER_PORT=11 mc && docker exec -it mc /bin/bash
