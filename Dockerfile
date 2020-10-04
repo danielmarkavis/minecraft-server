@@ -71,9 +71,12 @@ ENV ENABLE_JMX_MONITORING=false \
 # Environment variables used for Spigot installation
 ENV MINECRAFT_VERSION=latest
 
+# Environment variables for volume
+#ENV VOLUME_PATH="/data"
+
 # Update and install required software and tools
 RUN echo "***** Updating and installing required software and tools" && \
-    apt --assume-yes update˛&& \
+    apt --assume-yes update && \
     apt --assume-yes install openjdk-$JAVA_MAJOR_VERSION-jre-headless \
                              wget \
                              unzip \
@@ -118,31 +121,56 @@ RUN /McMyAdmin/MCMA2_Linux_x86_64 -setpass $MCMA_PASSWORD -configonly -nonotice
 
 # Agree to EULA
 #RUN sed -i 's/eula=false/eula=true/g' /McMyAdmin/Minecraft/eula.txt
-RUN echo "***** Agreeing to MCMA's EULA: https://mcmyadmin.com/licence.html"
+RUN echo "***** Agreeing to MCMA's EULA: https://mcmyadmin.com/licence.html" && \
     touch /McMyAdmin/Minecraft/eula.txt && \
     echo "eula=true" >> /McMyAdmin/Minecraft/eula.txt
 
 # Configure McMyAdmin
 ADD scripts/configure_mcma.py /scripts/
-RUN echo "***** Configuring McMyAdmin conf file" && \ 
+RUN echo "***** Configuring McMyAdmin conf file" && \
     python3 /scripts/configure_mcma.py
 
 # Install Spigot
 WORKDIR /McMyAdmin/Minecraft/spigot/
-RUN echo "***** Installing Spigot" && \ 
-    wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar && \ 
-    git config --global --unset core.autocrlf && \ 
-    java -Xmx$JAVA_MEMORYM -jar BuildTools.jar --rev $MINECRAFT_VERSION
+RUN echo "***** Installing Spigot"
+RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+#RUN git config --global --unset core.autocrlf
+RUN java -Xmx1024M -jar BuildTools.jar --rev $MINECRAFT_VERSION
+RUN cp spigot-*.jar /McMyAdmin/Minecraft/
+RUN mv /McMyAdmin/Minecraft/minecraft_server.jar /McMyAdmin/Minecraft/minecraft_server.jar_backup
+RUN mv /McMyAdmin/Minecraft/spigot-*.jar /McMyAdmin/Minecraft/minecraft_server.jar
+
 
 # Add default Minecraft server.properties
-#ADD 
+ADD files/server.properties /McMyAdmin/Minecraft/server.properties
 
 # Configure Minecraft server
-#ADD scripts/configure_minecraft.py /scripts/
-#RUN echo "***** Configuring Minecraft server properties file" && \ 
+ADD scripts/configure_minecraft.py /scripts/
+RUN echo "***** Configuring Minecraft server properties file" && \
     python3 /scripts/configure_minecraft.py
 
+# Cleanup
+RUN echo "***** Cleaning up" && \
+    apt --assume-yes clean && \
+    rm -rf \
+           /tmp/* \
+           /var/lib/apt/lists/* \
+           /var/tmp/*
 
+# Expose ports
+EXPOSE 8080 25565
+
+# Define volumes
+#WORKDIR ${VOLUME_PATH}
+#VOLUME ${VOLUME_PATH}
+WORKDIR /McMyAdmin/
+VOLUME /McMyAdmin/
+
+# Start
+ADD scripts/startup.sh /scripts/
+RUN chmod a+x /scripts/startup.sh
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/scripts/startup.sh"]
 
 #temp
-CMD tail -f /dev/null
+#CMD tail -f /dev/null
