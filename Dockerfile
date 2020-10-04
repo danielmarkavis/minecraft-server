@@ -122,17 +122,25 @@ RUN echo "***** Agreeing to MCMA's EULA: https://mcmyadmin.com/licence.html"
     touch /McMyAdmin/Minecraft/eula.txt && \
     echo "eula=true" >> /McMyAdmin/Minecraft/eula.txt
 
-
 # Configure McMyAdmin
-ADD scripts/configure_mcma.py .
-RUN python3 configure_mcma.py
+ADD scripts/configure_mcma.py /scripts/
+RUN echo "***** Configuring McMyAdmin conf file" && \ 
+    python3 /scripts/configure_mcma.py
 
 # Install Spigot
-#RUN 
+WORKDIR /McMyAdmin/Minecraft/spigot/
+RUN echo "***** Installing Spigot" && \ 
+    wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar && \ 
+    git config --global --unset core.autocrlf && \ 
+    java -Xmx$JAVA_MEMORYM -jar BuildTools.jar --rev $MINECRAFT_VERSION
+
+# Add default Minecraft server.properties
+#ADD 
 
 # Configure Minecraft server
-#ADD scripts/configure_minecraft.py .
-#RUN python3 configure_minecraft.py
+#ADD scripts/configure_minecraft.py /scripts/
+#RUN echo "***** Configuring Minecraft server properties file" && \ 
+    python3 /scripts/configure_minecraft.py
 
 
 

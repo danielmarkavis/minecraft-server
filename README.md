@@ -24,7 +24,7 @@ Initial password is set using the `-setpass` argument in the `inittialise_mcma.s
 | ---------------- | ----------------- | ------------- | ----------------- | ------------------------------------------------------------------ |
 | WEBSERVER_PORT   | Webserver.Port    | 8080          | 8081              | Port on which MCMA web server is running                           |
 | JAVA_PATH        | Java.Path         | detect        | detect            | Path to Java Runtime Environment                                   |
-| JAVA_MEMORY      | Java.Memory       | 1024          | 3072              | Amount of RAM avaliable for JVM (Java Virtual Machine)             |
+| JAVA_MEMORY      | Java.Memory       | 1024          | 3072              | Amount of RAM in MB avaliable for JVM (Java Virtual Machine)       |
 | JAVA_GC          | Java.GC           | default       | -XX:+UseG1GC      | Java Garbage Collector                                             |
 | JAVA_CUSTOM_OPTS | Java.CustomOpts   |               | -server           | Extra arguments to pass to Java when starting the Minecraft server |
 
