@@ -34,7 +34,7 @@ docker run -d \
     --name minecraft-server \
     -p 8080:8080 \
     -p 25565:25565 \
-    --restart unless-stopped  \
+    --restart unless-stopped \
     --stop-timeout 30 \
     -v McMyAdmin:/McMyAdmin \
     -e MINECRAFT_VERSION=1.12.2 \
@@ -46,10 +46,10 @@ docker run -d \
     -e LEVEL_NAME="World By Matej" \
     -e MOTD="A Minecraft Server by Matej" \
     -e DIFFICULTY=hard \
-    -e MAX_PLAYERS=6 \ 
+    -e MAX_PLAYERS=6 \
     -e ONLINE_MODE=false \
-    -e VIEW_DISTANCE=5 \ 
-    -e MAX_BUILD_HEIGHT=128 \ 
+    -e VIEW_DISTANCE=5 \
+    -e MAX_BUILD_HEIGHT=128 \
     -e PLAYER_IDLE_TIMEOUT=60 \
     -e SNOOPER_ENABLED=false \
     -e SPAWN_PROTECTION=10 \
