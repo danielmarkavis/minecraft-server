@@ -4,12 +4,6 @@
 Container is stopped after entrypoint.sh is executed.
 Probably needing dumb-init, or something like that...
 
-## Create a file upon spigot creation
-1. Utilize USE_SPIGOT variable and build only if it's true
-2. Build only the first time
-3. After successful build, crate a file .buildSuccess
-4. Always check if .buildSuccess file exists (check both use_spigot and file)
-
 ## Add installation files to image
 Add files obtained from web (wget) and add them to project and use ADD to copy them to the image directly.
 
