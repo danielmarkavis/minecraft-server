@@ -83,7 +83,9 @@ RUN echo "***** Updating and installing required software and tools" && \
                              ca-certificates \
                              curl \
                              git \
-                             screen
+                             screen \
+                             dumb-init \
+                             gosu
 
 # General system setup
 RUN echo "***** Running general system setup" && \
@@ -137,6 +139,8 @@ ADD scripts/configure_minecraft.py /scripts/
 # Cleanup
 RUN echo "***** Cleaning up" && \
     apt --assume-yes clean && \
+    apt --assume-yes autoclean && \
+    apt --assume-yes autoremove && \
     rm -rf \
            /tmp/* \
            /var/lib/apt/lists/* \
@@ -154,5 +158,5 @@ ADD scripts/startup.sh /scripts/
 ADD scripts/entrypoint.sh /scripts/
 RUN chmod a+x /scripts/startup.sh && \
     chmod a+x /scripts/entrypoint.sh
-ENTRYPOINT ["/scripts/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/scripts/startup.sh"]

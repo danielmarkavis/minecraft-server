@@ -1,8 +1,8 @@
 # TO-DOs
 
-## Fix issues with stopping containers
-Container is stopped after entrypoint.sh is executed.
-Probably needing dumb-init, or something like that...
+## Fix line endings on server.properties
+
+## Fix McMyAdmin.conf not being configured
 
 ## Add installation files to image
 Add files obtained from web (wget) and add them to project and use ADD to copy them to the image directly.
