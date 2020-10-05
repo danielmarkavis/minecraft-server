@@ -1,6 +1,7 @@
 import enum
 import fileinput
 import os
+import stat
 
 
 class EnvironmentToMinecraftPropertiesMapping(enum.Enum):
@@ -59,6 +60,12 @@ class EnvironmentToMinecraftPropertiesMapping(enum.Enum):
 
 
 separator = "="
+os.chmod("/McMyAdmin/Minecraft/server.properties",
+         stat.S_IRUSR |
+         stat.S_IWUSR |
+         stat.S_IRGRP |
+         stat.S_IWGRP |
+         stat.S_IROTH)
 for line in fileinput.input("/McMyAdmin/Minecraft/server.properties", inplace=True):
     if line[:1] != "#" and separator in line:
         # split property name, and value based on separator
@@ -67,4 +74,4 @@ for line in fileinput.input("/McMyAdmin/Minecraft/server.properties", inplace=Tr
             print('{}{}{}'.format(property_name_in_file,
                                   separator,
                                   os.environ[EnvironmentToMinecraftPropertiesMapping(property_name_in_file).name]
-                                  ), end='')
+                                  ), end='\n')
