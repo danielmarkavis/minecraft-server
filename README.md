@@ -1,5 +1,9 @@
 # minecraft-server
 
+# Disclaimer
+By using this Docker image you implicitly agree to the McMyAdmin's EULA.
+
+You may read it here: https://mcmyadmin.com/licence.html
 
 
 
@@ -20,7 +24,7 @@ Initial password is set using the `-setpass` argument in the `inittialise_mcma.s
 | ---------------- | ----------------- | ------------- | ----------------- | ------------------------------------------------------------------ |
 | WEBSERVER_PORT   | Webserver.Port    | 8080          | 8081              | Port on which MCMA web server is running                           |
 | JAVA_PATH        | Java.Path         | detect        | detect            | Path to Java Runtime Environment                                   |
-| JAVA_MEMORY      | Java.Memory       | 1024          | 3072              | Amount of RAM avaliable for JVM (Java Virtual Machine)             |
+| JAVA_MEMORY      | Java.Memory       | 1024          | 3072              | Amount of RAM in MB avaliable for JVM (Java Virtual Machine)       |
 | JAVA_GC          | Java.GC           | default       | -XX:+UseG1GC      | Java Garbage Collector                                             |
 | JAVA_CUSTOM_OPTS | Java.CustomOpts   |               | -server           | Extra arguments to pass to Java when starting the Minecraft server |
 
@@ -30,7 +34,7 @@ All properties and their descriptions can be found here: https://minecraft.gamep
 | Variable                          | Name in properties file           | Default value      | Recommended value           |
 | --------------------------------- | --------------------------------- | ------------------ | --------------------------- |
 | ENABLE_JMX_MONITORING             | enable-jmx-monitoring             | false              | false                       |
-| RCON.PORT                         | rcon.port                         | 25575              | 25575                       |
+| RCON_PORT                         | rcon.port                         | 25575              | 25575                       |
 | LEVEL_SEED                        | level-seed                        |                    |                             |
 | GAMEMODE                          | gamemode                          | survival           | survival                    |
 | ENABLE_COMMAND_BLOCK              | enable-command-block              | false              | true                        |
@@ -38,7 +42,7 @@ All properties and their descriptions can be found here: https://minecraft.gamep
 | GENERATOR_SETTINGS                | generator-settings                |                    |                             |
 | LEVEL_NAME                        | level-name                        | world              | World By Matej              |
 | MOTD                              | motd                              | A Minecraft Server | A Minecraft Server by Matej |
-| QUERY.PORT                        | query.port                        | 25565              | 25565                       |
+| QUERY_PORT                        | query.port                        | 25565              | 25565                       |
 | PVP                               | pvp                               | true               | true                        |
 | GENERATE_STRUCTURES               | generate-structures               | true               | true                        |
 | DIFFICULTY                        | difficulty                        | easy               | hard                        |
@@ -61,7 +65,7 @@ All properties and their descriptions can be found here: https://minecraft.gamep
 | PREVENT_PROXY_CONNECTIONS         | prevent-proxy-connections         | false              | false                       |
 | RESOURCE_PACK                     | resource-pack                     |                    |                             |
 | ENTITY_BROADCAST_RANGE_PERCENTAGE | entity-broadcast-range-percentage | 100                | 100                         |
-| RCON.PASSWORD                     | rcon.password                     |                    |                             |
+| RCON_PASSWORD                     | rcon.password                     |                    |                             |
 | PLAYER_IDLE_TIMEOUT               | player-idle-timeout               | 0                  | 60                          |
 | FORCE_GAMEMODE                    | force-gamemode                    | false              | false                       |
 | RATE_LIMIT                        | rate-limit                        | 0                  | 0                           |

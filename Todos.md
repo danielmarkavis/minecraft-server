@@ -23,3 +23,15 @@ docker images prune
 ## All in one
 docker stop mc && docker rm mc && docker image rm mc && docker images prune
 docker build -t mc . && docker run -dit --name mc -e WEBSERVER_PORT=11 mc && docker exec -it mc /bin/bash
+
+## Test run
+docker run -d \
+    --name mc \
+    -p 8080:8080 \
+    -p 25565:25565 \
+    --restart unless-stopped  \
+    --stop-timeout 30 \
+    -e JAVA_MEMORY=2048 \
+    -e JAVA_CUSTOM_OPTS=-server \
+    -e ONLINE_MODE=false \
+    mc
