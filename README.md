@@ -28,6 +28,35 @@ Default command (CMD) starts the McMyAdmin2 web panel.
 ## Run commands
 - todo: write `docker run` command examples with explanations
 
+### My run command
+```
+docker run -d \
+    --name minecraft-server \
+    -p 8080:8080 \
+    -p 25565:25565 \
+    --restart unless-stopped  \
+    --stop-timeout 30 \
+    -v McMyAdmin:/McMyAdmin \
+    -e MINECRAFT_VERSION=1.12.2 \
+    -e MCMA_PASSWORD=StrongPa55! \
+    -e JAVA_MEMORY=3072 \
+    -e JAVA_GC=-XX:+UseG1GC \
+    -e JAVA_CUSTOM_OPTS=-server \
+    -e ENABLE_COMMAND_BLOCK=true \
+    -e LEVEL_NAME="World By Matej" \
+    -e MOTD="A Minecraft Server by Matej" \
+    -e DIFFICULTY=hard \
+    -e MAX_PLAYERS=6 \ 
+    -e ONLINE_MODE=false \
+    -e VIEW_DISTANCE=5 \ 
+    -e MAX_BUILD_HEIGHT=128 \ 
+    -e PLAYER_IDLE_TIMEOUT=60 \
+    -e SNOOPER_ENABLED=false \
+    -e SPAWN_PROTECTION=10 \
+    -e MAX_WORLD_SIZE=14999992 \
+    bymatej/minecraft-server
+```
+
 # Environment variables
 The *Recommended value* column in (some tables below) outlines the values that I personally use for my own server.
 This does not mean that the values I provided are in any sense better than the default ones.
