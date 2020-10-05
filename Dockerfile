@@ -7,6 +7,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Environment variables used for setting up the system
 ENV JAVA_MAJOR_VERSION=8
 
+# Environment variables used for Spigot installation
+ENV USE_SPIGOT=true
+ENV MINECRAFT_VERSION=latest
+
 # Environment variables used for initialising McMyAdmin
 ENV MCMA_PASSWORD=nimda
 
@@ -15,16 +19,16 @@ ENV WEBSERVER_PORT=8080 \
     JAVA_PATH=detect \
     JAVA_MEMORY=1024 \
     JAVA_GC=default \
-    JAVA_CUSTOM_OPTS=
+    JAVA_CUSTOM_OPTS=""
 
 # Environment variables used in server.properties in Minecraft
 ENV ENABLE_JMX_MONITORING=false \
     RCON_PORT=25575 \
-    LEVEL_SEED= \
+    LEVEL_SEED="" \
     GAMEMODE=survival \
     ENABLE_COMMAND_BLOCK=false \
     ENABLE_QUERY=false \
-    GENERATOR_SETTINGS= \
+    GENERATOR_SETTINGS="" \
     LEVEL_NAME=WORLD \
     MOTD="A Minecraft Server" \
     QUERY_PORT=25565 \
@@ -41,16 +45,16 @@ ENV ENABLE_JMX_MONITORING=false \
     BROADCAST_RCON_TO_OPS=true \
     VIEW_DISTANCE=10 \
     MAX_BUILD_HEIGHT=256 \
-    SERVER_IP= \
+    SERVER_IP="" \
     ALLOW_NETHER=true \
     SERVER_PORT=25565 \
     ENABLE_RCON=false \
     SYNC_CHUNK_WRITES=true \
     OP_PERMISSION_LEVEL=4 \
     PREVENT_PROXY_CONNECTIONS=false \
-    RESOURCE_PACK= \
+    RESOURCE_PACK="" \
     ENTITY_BROADCAST_RANGE_PERCENTAGE=100 \
-    RCON_PASSWORD= \
+    RCON_PASSWORD="" \
     PLAYER_IDLE_TIMEOUT=0 \
     FORCE_GAMEMODE=false \
     RATE_LIMIT=0 \
@@ -64,15 +68,9 @@ ENV ENABLE_JMX_MONITORING=false \
     LEVEL_TYPE=DEFAULT \
     SPAWN_MONSTERS=true \
     ENFORCE_WHITELIST=false \
-    RESOURCE_PACK_SHA1= \
+    RESOURCE_PACK_SHA1="" \
     SPAWN_PROTECTION=16 \
     MAX_WORLD_SIZE=29999984
-
-# Environment variables used for Spigot installation
-ENV MINECRAFT_VERSION=latest
-
-# Environment variables for volume
-#ENV VOLUME_PATH="/data"
 
 # Update and install required software and tools
 RUN echo "***** Updating and installing required software and tools" && \
@@ -81,13 +79,11 @@ RUN echo "***** Updating and installing required software and tools" && \
                              wget \
                              unzip \
                              python3 \
-                             dumb-init \
                              locales \
                              ca-certificates \
                              curl \
                              git \
-                             screen \
-                             gosu
+                             screen
 
 # General system setup
 RUN echo "***** Running general system setup" && \
@@ -120,34 +116,23 @@ RUN wget http://mcmyadmin.com/Downloads/MCMA2_glibc26_2.zip && \
 RUN /McMyAdmin/MCMA2_Linux_x86_64 -setpass $MCMA_PASSWORD -configonly -nonotice
 
 # Agree to EULA
-#RUN sed -i 's/eula=false/eula=true/g' /McMyAdmin/Minecraft/eula.txt
 RUN echo "***** Agreeing to MCMA's EULA: https://mcmyadmin.com/licence.html" && \
     touch /McMyAdmin/Minecraft/eula.txt && \
     echo "eula=true" >> /McMyAdmin/Minecraft/eula.txt
 
-# Configure McMyAdmin
+# Add McMyAdmin config script
 ADD scripts/configure_mcma.py /scripts/
-RUN echo "***** Configuring McMyAdmin conf file" && \
-    python3 /scripts/configure_mcma.py
 
-# Install Spigot
+# Download Spigot BuildTools
 WORKDIR /McMyAdmin/Minecraft/spigot/
-RUN echo "***** Installing Spigot"
-RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-#RUN git config --global --unset core.autocrlf
-RUN java -Xmx1024M -jar BuildTools.jar --rev $MINECRAFT_VERSION
-RUN cp spigot-*.jar /McMyAdmin/Minecraft/
-RUN mv /McMyAdmin/Minecraft/minecraft_server.jar /McMyAdmin/Minecraft/minecraft_server.jar_backup
-RUN mv /McMyAdmin/Minecraft/spigot-*.jar /McMyAdmin/Minecraft/minecraft_server.jar
-
+RUN echo "***** Downloading Spigot BuildTools. Installation will happen on container start." && \
+    wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
 # Add default Minecraft server.properties
 ADD files/server.properties /McMyAdmin/Minecraft/server.properties
 
-# Configure Minecraft server
+# Add Minecraft server config script
 ADD scripts/configure_minecraft.py /scripts/
-RUN echo "***** Configuring Minecraft server properties file" && \
-    python3 /scripts/configure_minecraft.py
 
 # Cleanup
 RUN echo "***** Cleaning up" && \
@@ -161,16 +146,13 @@ RUN echo "***** Cleaning up" && \
 EXPOSE 8080 25565
 
 # Define volumes
-#WORKDIR ${VOLUME_PATH}
-#VOLUME ${VOLUME_PATH}
 WORKDIR /McMyAdmin/
 VOLUME /McMyAdmin/
 
 # Start
 ADD scripts/startup.sh /scripts/
-RUN chmod a+x /scripts/startup.sh
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+ADD scripts/entrypoint.sh /scripts/
+RUN chmod a+x /scripts/startup.sh && \
+    chmod a+x /scripts/entrypoint.sh
+ENTRYPOINT ["/scripts/entrypoint.sh"]
 CMD ["/scripts/startup.sh"]
-
-#temp
-#CMD tail -f /dev/null
