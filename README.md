@@ -32,7 +32,7 @@ My server:
 - 4GB RAM (1600 MHz)
 - Intel Celeron CPU 1017U @ 1.60GHz (Dual Core)
 
-So, it is a pretty low-end.
+So, it is a pretty low-end machine.
 I would recommend at least 2GB of RAM for the McMyAdmin (set using the `JAVA_MEMORY` environment variable).
 The settings I use are in the *Recommended* columns in the tables below.
 
@@ -40,8 +40,7 @@ It can run on 1GB of RAM, but it will be sluggish, and there will be a lot of ti
 If you see the following entry in the log (in McMyAdmin console) it is not good: `CONSOLE: thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running [####]ms behind, skipping [##] tick(s`
 
 # Running and stopping
-Configuration and customization is done at the entrypoint. Do not override the entrypoint.
-Default command (CMD) starts the McMyAdmin2 web panel.
+Configuration and customization is done by running the default image command (the `CMD` in the dockerfile at the bottom of the file). Do not override the entrypoint, but also do not override the `CMD`.
 
 ## Run commands
 ### Recommended run command
@@ -122,6 +121,7 @@ docker run -d \
 The `StrongPa55!` is, obviously, not my **actual** password. :) 
 
 ## Stopping the server
+Steps: 
 - Stop the Minecraft server in McMyAdmin web panel
 - Stop the container (if you want to)
 
