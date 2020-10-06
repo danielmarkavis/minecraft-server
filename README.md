@@ -39,7 +39,7 @@ The settings I use are in the *Recommended* columns in the tables below.
 It can run on 1GB of RAM, but it will be sluggish, and there will be a lot of ticks skipping. 
 If you see the following entry in the log (in McMyAdmin console) it is not good: `CONSOLE: thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running [####]ms behind, skipping [##] tick(s`
 
-# Running
+# Running and stopping
 Configuration and customization is done at the entrypoint. Do not override the entrypoint.
 Default command (CMD) starts the McMyAdmin2 web panel.
 
@@ -120,6 +120,14 @@ docker run -d \
 ```
 
 The `StrongPa55!` is, obviously, not my **actual** password. :) 
+
+## Stopping the server
+- Stop the Minecraft server in McMyAdmin web panel
+- Stop the container (if you want to)
+
+Do not just stop the container without stopping the Minecraft server, so your world does not get corrupted. 
+
+To manage your containers, there is a nifty tool for that called Portainer. Check it out: https://www.portainer.io/
 
 # Environment variables
 The *Recommended value* column in (some tables below) outlines the values that I personally use for my own server.
