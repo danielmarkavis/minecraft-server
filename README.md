@@ -1,12 +1,9 @@
 # minecraft-server
 A Minecraft server with: 
 - McMyAdmin
-- Spigot
-- Ability to specify Minecraft version
+- Spigot with ability to specify the Minecraft version
 - Fully configurable using environment variables
-- Volume to access configuration files later on
-
-## NOT DONE YET - CHECK **Todos.md** FOR DETAILS
+- Volume to access all the configuration files later on
 
 # Disclaimer
 By using this Docker image you implicitly agree to the McMyAdmin's EULA.
@@ -21,12 +18,77 @@ If you are not happy with the solution provided here, do one of the following:
 - Use it the way I use it and don't complain
 - Check other solutions, like this one, for example: https://github.com/tekgator/docker-mcmyadmin
 
+# System requirements
+This heavily depends on: 
+- your settings (world size, build height, view distance, number of players, etc.)
+- number of players currently playing
+- what is happening on the map (it is not the same to be alone in the desert, and be surrounded by 10 mobs; the latter requires a lot more work on the server side)
+
+Here are the recommendations: https://minecraft.gamepedia.com/Server/Requirements/Dedicated#Console
+
+My server: 
+- Lenovo Q190 (an old mini desktop PC)
+- 320 GB HDD (not SSD, unfortunately)
+- 4GB RAM (1600 MHz)
+- Intel Celeron CPU 1017U @ 1.60GHz (Dual Core)
+
+So, it is a pretty low-end.
+I would recommend at least 2GB of RAM for the McMyAdmin (set using the `JAVA_MEMORY` environment variable).
+The settings I use are in the *Recommended* columns in the tables below.
+
+It can run on 1GB of RAM, but it will be sluggish, and there will be a lot of ticks skipping. 
+If you see the following entry in the log (in McMyAdmin console) it is not good: `CONSOLE: thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running [####]ms behind, skipping [##] tick(s`
+
 # Running
 Configuration and customization is done at the entrypoint. Do not override the entrypoint.
 Default command (CMD) starts the McMyAdmin2 web panel.
 
 ## Run commands
-- todo: write `docker run` command examples with explanations
+### Recommended run command
+This command will load most of the defaults, except the McMyAdmin password, Java memory and custom opts.
+
+```
+docker run -d \
+    --name minecraft-server \
+    -p 8080:8080 \
+    -p 25565:25565 \
+    --restart unless-stopped \
+    --stop-timeout 30 \
+    -v McMyAdmin:/McMyAdmin \
+    -e MCMA_PASSWORD=StrongPa55! \
+    -e JAVA_MEMORY=2048 \
+    -e JAVA_CUSTOM_OPTS=-server \
+    bymatej/minecraft-server
+```
+
+#### Explanations
+Official documentation: https://docs.docker.com/engine/reference/run/
+
+##### `docker run` 
+The docker command that runs the image (creates the container out of the specified image).
+##### `-d`
+This means "detached", so the `run` command is run in background.
+##### `--name minecraft-server` 
+Specifies the container name. You can change the `minecraft-server` to whatever you like.
+##### `-p 8080:8080` and `-p 25565:25565`
+Publishes a container's port to the host. So, container's port `8080` is published to port `8080` on the host.
+
+In case, for example, the port `8080` is used by another app on your host, you can do the following: `-p 8080:8081`.
+This would publish `8080` in container to `8081` on the host. Your McMyAdmin web panel would be at `http://localhost:8081` in that case.
+##### `--restart unless-stopped`
+Restarts the container automatically, unless it is stopped intentionally. Good if the container crashes - it will restart automatically.
+##### `--stop-timeout 30` 
+Gives the container 30 seconds of timeout when stopping. Good for safe container stop.
+##### `-v McMyAdmin:/McMyAdmin`
+Defines the volume. The `/McMyAdmin` is the folder in the container and the volume name is `McMyAdmin`.
+##### `-e MCMA_PASSWORD=StrongPa55!`
+Defines the key-value pair for the environment variable. In this case, the key is `MCMA_PASSWORD` and the value is `StrongPa55!`.
+Multiple `-e` parameters can be added.
+##### `bymatej/minecraft-server`
+Specified the image used. No tag is specified, so this is the same as `bymatej/minecraft-server:latest`.
+
+### Create your own run command
+Run your container with settings that fit your server the best.
 
 ### My run command
 ```
@@ -57,6 +119,8 @@ docker run -d \
     bymatej/minecraft-server
 ```
 
+The `StrongPa55!` is, obviously, not my **actual** password. :) 
+
 # Environment variables
 The *Recommended value* column in (some tables below) outlines the values that I personally use for my own server.
 This does not mean that the values I provided are in any sense better than the default ones.
@@ -75,6 +139,7 @@ Specifying an invalid value will cause errors and nothing will work.
 
 ## Spigot settings
 This is only if you want to use Spigot build.
+This is Spigot: https://www.spigotmc.org/
 
 To use Spigot build, the `USE_SPIGOT` must be set to `true`. 
 This is set to `true` by default.
@@ -171,7 +236,8 @@ All properties and their descriptions can be found here: https://minecraft.gamep
 | SPAWN_PROTECTION                  | spawn-protection                  | 16                 | 10                          |
 | MAX_WORLD_SIZE                    | max-world-size                    | 29999984           | 14999992                    |
 
-# Resources
+# Resources and additional instructions
+## Resources
 Resources and technologies used:
 - Minecraft: https://www.minecraft.net/
 - McMyAdmin: https://mcmyadmin.com/
@@ -180,3 +246,12 @@ Resources and technologies used:
 - Docker: https://www.docker.com/
 - Bash: https://www.gnu.org/software/bash/
 - Ubuntu: https://ubuntu.com/
+
+## Minecraft and McMyAdmin additional instructions
+### Installation
+- Installation instructions grabbed from: https://bymatej.com/how-to-set-up-a-minecraft-java-edition-server-with-mcmyadmin2-on-linux/
+### Minecraft gameplay
+- Download Minecraft (free, unofficial): https://bymatej.com/how-to-download-minecraft-java-edition-via-tlauncher/
+- Crafting guide: https://www.minecraftcraftingguide.net/
+### McMyAdmin additional configuration
+- Whitelisting users in McMyAdmin2 (so only specific people can join your server): https://bymatej.com/how-to-set-up-a-minecraft-java-edition-server-with-mcmyadmin2-on-linux/#Whitelisting

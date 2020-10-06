@@ -1,13 +1,14 @@
 # TO-DOs
 
+This document is probably no longer needed, but I left it for a later reference.
+
 ## Add installation files to image
 Add files obtained from web (wget) and add them to project and use ADD to copy them to the image directly.
 
 This is probably not a good idea, as a lot of files would need to be added and on each Minecraft update a new jar would need to be added.
-This would also require pre-built Spigot versions.
-
-## Check how worlds are saved when stopping the container
-Data should not be lost/corrupted after container stop.
+This would also require pre-built Spigot versions (which would be great, as the container would start quicker when run for te first time).
+But it is a lot of work, and each new Minecraft version would need a new docker tag. And this would only confuse users not using Spigot.
+I probably won't do it...
 
 ## Consider migrating to AMP
 AMP is successor of McMyAdmin2: https://github.com/cubecoders/amp/wiki
