@@ -256,10 +256,13 @@ Resources and technologies used:
 - Ubuntu: https://ubuntu.com/
 
 ## Minecraft and McMyAdmin additional instructions
+
 ### Installation
 - Installation instructions grabbed from: https://bymatej.com/how-to-set-up-a-minecraft-java-edition-server-with-mcmyadmin2-on-linux/
+
 ### Minecraft gameplay
 - Download Minecraft (free, unofficial): https://bymatej.com/how-to-download-minecraft-java-edition-via-tlauncher/
 - Crafting guide: https://www.minecraftcraftingguide.net/
+
 ### McMyAdmin additional configuration
 - Whitelisting users in McMyAdmin2 (so only specific people can join your server): https://bymatej.com/how-to-set-up-a-minecraft-java-edition-server-with-mcmyadmin2-on-linux/#Whitelisting
