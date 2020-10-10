@@ -30,3 +30,5 @@ for line in fileinput.input("/McMyAdmin/McMyAdmin.conf", inplace=True):
             print('{}{}{}'.format(property_name_in_file,
                                   separator,
                                   os.environ[EnvironmentToMcmaMapping(property_name_in_file).name]), end='\n')
+    else:
+        print(line)

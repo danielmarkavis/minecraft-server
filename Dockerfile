@@ -79,6 +79,7 @@ RUN echo "***** Updating and installing required software and tools" && \
                              wget \
                              unzip \
                              python3 \
+                             python3-pip \
                              locales \
                              ca-certificates \
                              curl \
@@ -86,6 +87,10 @@ RUN echo "***** Updating and installing required software and tools" && \
                              screen \
                              dumb-init \
                              gosu
+
+# Install Python dependencies
+ADD scripts/requirements.txt /scripts
+RUN pip3 install -r /scripts/requirements.txt
 
 # General system setup
 RUN echo "***** Running general system setup" && \

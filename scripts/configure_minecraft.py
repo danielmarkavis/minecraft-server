@@ -75,3 +75,5 @@ for line in fileinput.input("/McMyAdmin/Minecraft/server.properties", inplace=Tr
                                   separator,
                                   os.environ[EnvironmentToMinecraftPropertiesMapping(property_name_in_file).name]
                                   ), end='\n')
+    else:
+        print(line)
