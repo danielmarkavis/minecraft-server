@@ -162,8 +162,8 @@ The installed version of Minecraft is the one that comes with McMyAdmin (possibl
 Installing other flavors/mods of Minecraft can also be configured in McMyAdmin GUI later on.
 
 ### Vanilla
-To use Spigot build, the `MINECRAFT_FLAVOR` should be set to `Vanilla`. This is the default value.
-Currently, this does nothing. The Minecraft jar that came with McMyAdmin will be used.
+To use Vanilla, the `MINECRAFT_FLAVOR` should be set to `Vanilla`. This is the default value.
+This settings triggers a script that downloads the Minecraft Server Jar file from https://mcversions.net/
 
 ### Spigot
 This is Spigot: https://www.spigotmc.org/
@@ -264,6 +264,7 @@ All properties and their descriptions can be found here: https://minecraft.gamep
 Resources and technologies used:
 - Minecraft: https://www.minecraft.net/
 - McMyAdmin: https://mcmyadmin.com/
+- Minecraft server: https://mcversions.net/
 - Spigot: https://www.spigotmc.org/
 - Forge: http://files.minecraftforge.net/
 - Java: https://www.java.com/

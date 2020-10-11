@@ -4,6 +4,17 @@ set -e
 echo "***** Entrypoint..."
 echo " -------------------- "
 
+install_vanilla() {
+  # Install vanilla if required
+  if [ ! -f /McMyAdmin/Minecraft/.vanillaInstalled ] ; then
+    echo "***** Installing Vanilla"
+    python3 /scripts/download_minecraft_vanilla.py
+    touch /McMyAdmin/Minecraft/.vanillaInstalled
+    echo "***** Vanilla installation done!" ; else
+      echo  "***** Minecraft Forge is already installed."
+  fi
+}
+
 install_spigot() {
   # Install Spigot if required
   if [ ! -f /McMyAdmin/Minecraft/spigot/.buildSuccess ] ; then
@@ -15,20 +26,24 @@ install_spigot() {
     mv /McMyAdmin/Minecraft/minecraft_server.jar /McMyAdmin/Minecraft/minecraft_server.jar_backup
     mv /McMyAdmin/Minecraft/spigot-*.jar /McMyAdmin/Minecraft/minecraft_server.jar
     touch /McMyAdmin/Minecraft/spigot/.buildSuccess
-    echo "***** Spigot installation done!"
+    echo "***** Spigot installation done!" ; else
+      echo  "***** Spigot is already installed."
   fi
 }
 
 install_forge() {
   # Install Forge if required
-  echo "***** Installing Forge"
-  python3 /scripts/download_minecraft_forge.py
-  echo "***** Forge installation done!"
+  if [ ! -f /McMyAdmin/Minecraft/ForgeMod.jar ] ; then
+    echo "***** Installing Forge"
+    python3 /scripts/download_minecraft_forge.py
+    echo "***** Forge installation done!" ; else
+      echo  "***** Minecraft Forge is already installed."
+  fi
 }
 
 case ${MINECRAFT_FLAVOR^^} in
     VANILLA )
-        echo "Vanilla is probably already installed. Doing nothing..."
+        install_vanilla
     ;;
     SPIGOT )
         install_spigot

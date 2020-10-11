@@ -75,7 +75,7 @@ ENV ENABLE_JMX_MONITORING=false \
 # Update and install required software and tools
 RUN echo "***** Updating and installing required software and tools" && \
     apt --assume-yes update && \
-    apt --assume-yes install openjdk-$JAVA_MAJOR_VERSION-jre-headless \
+    apt --assume-yes install openjdk-$JAVA_MAJOR_VERSION-jdk-headless \
                              wget \
                              unzip \
                              python3 \
@@ -160,6 +160,7 @@ WORKDIR /McMyAdmin/
 VOLUME /McMyAdmin/
 
 # Start
+ADD scripts/mods/download_minecraft_vanilla.py /scripts/
 ADD scripts/mods/download_minecraft_forge.py /scripts/
 ADD scripts/startup.sh /scripts/
 ADD scripts/entrypoint.sh /scripts/
