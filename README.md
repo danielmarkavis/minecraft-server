@@ -176,6 +176,13 @@ Available versions are outlined here: https://www.spigotmc.org/wiki/buildtools/
 This take a lot of time, so be patient. 
 Check the container log by using `docker logs` command. Once you are past "Installing Spigot" the container will soon finish its entrypoint commands and your McMyAdmin will be ready.
 
+### Forge
+This is Forge: http://files.minecraftforge.net/
+To use the Forge build, the `MINECRAFT_FLAVOR` should be set to `Forge`.
+
+The environment variable `MINECRAFT_VERSION` is used when getting the download link for Forge jar file.
+
+
 | Variable           | Default value | Description                                                            |
 | ------------------ | ------------- | ---------------------------------------------------------------------- |
 | MINECRAFT_FLAVOR   | Vanilla       | Specify which Minecraft Flavor/Mod to install                          |
