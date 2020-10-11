@@ -74,16 +74,16 @@ docker run -d \
     --name mc \
     -p 8080:8080 \
     -p 25565:25565 \
-    --restart unless-stopped  \
     --stop-timeout 30 \
     -v mc:/McMyAdmin \
     -e JAVA_MEMORY=2048 \
     -e JAVA_CUSTOM_OPTS=-server \
     -e ONLINE_MODE=false \
+    -e MINECRAFT_FLAVOR=Forge \
     -e MINECRAFT_VERSION=1.12.2 \
     mc
 ```
 Remove
 ```
-docker stop mc && docker rm mc && docker image rm mc && docker images prune
+docker stop mc && docker rm mc && docker image rm mc && docker images prune && docker volume rm mc
 ```

@@ -7,8 +7,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Environment variables used for setting up the system
 ENV JAVA_MAJOR_VERSION=8
 
-# Environment variables used for Spigot installation
-ENV USE_SPIGOT=true
+# Environment variables used for Mod installation
+ENV MINECRAFT_FLAVOR="Vanilla"
 ENV MINECRAFT_VERSION=latest
 
 # Environment variables used for initialising McMyAdmin
@@ -75,7 +75,7 @@ ENV ENABLE_JMX_MONITORING=false \
 # Update and install required software and tools
 RUN echo "***** Updating and installing required software and tools" && \
     apt --assume-yes update && \
-    apt --assume-yes install openjdk-$JAVA_MAJOR_VERSION-jre-headless \
+    apt --assume-yes install openjdk-$JAVA_MAJOR_VERSION-jdk-headless \
                              wget \
                              unzip \
                              python3 \
@@ -86,10 +86,11 @@ RUN echo "***** Updating and installing required software and tools" && \
                              git \
                              screen \
                              dumb-init \
-                             gosu
+                             gosu \
+                             firefox-geckodriver
 
 # Install Python dependencies
-ADD scripts/requirements.txt /scripts
+ADD scripts/requirements.txt /scripts/requirements.txt
 RUN pip3 install -r /scripts/requirements.txt
 
 # General system setup
@@ -159,6 +160,8 @@ WORKDIR /McMyAdmin/
 VOLUME /McMyAdmin/
 
 # Start
+ADD scripts/mods/download_minecraft_vanilla.py /scripts/
+ADD scripts/mods/download_minecraft_forge.py /scripts/
 ADD scripts/startup.sh /scripts/
 ADD scripts/entrypoint.sh /scripts/
 RUN chmod a+x /scripts/startup.sh && \

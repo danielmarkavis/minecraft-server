@@ -4,17 +4,57 @@ set -e
 echo "***** Entrypoint..."
 echo " -------------------- "
 
-# Install Spigot if required
-if [ "$USE_SPIGOT" = true ] && [ ! -f /McMyAdmin/Minecraft/spigot/.buildSuccess ] ; then
-  echo "***** Installing Spigot"
-  JVM_MAX_MEMORY="Xmx${JAVA_MEMORY}M"
-  cd /McMyAdmin/Minecraft/spigot/
-  java -"$JVM_MAX_MEMORY" -jar /McMyAdmin/Minecraft/spigot/BuildTools.jar --rev "$MINECRAFT_VERSION" > spigot.log 2>&1
-  cp /McMyAdmin/Minecraft/spigot/spigot-*.jar /McMyAdmin/Minecraft/
-  mv /McMyAdmin/Minecraft/minecraft_server.jar /McMyAdmin/Minecraft/minecraft_server.jar_backup
-  mv /McMyAdmin/Minecraft/spigot-*.jar /McMyAdmin/Minecraft/minecraft_server.jar
-  touch /McMyAdmin/Minecraft/spigot/.buildSuccess
-fi
+install_vanilla() {
+  # Install vanilla if required
+  if [ ! -f /McMyAdmin/Minecraft/.vanillaInstalled ] ; then
+    echo "***** Installing Vanilla"
+    python3 /scripts/download_minecraft_vanilla.py
+    touch /McMyAdmin/Minecraft/.vanillaInstalled
+    echo "***** Vanilla installation done!" ; else
+      echo  "***** Minecraft Forge is already installed."
+  fi
+}
+
+install_spigot() {
+  # Install Spigot if required
+  if [ ! -f /McMyAdmin/Minecraft/spigot/.buildSuccess ] ; then
+    echo "***** Installing Spigot"
+    JVM_MAX_MEMORY="Xmx${JAVA_MEMORY}M"
+    cd /McMyAdmin/Minecraft/spigot/
+    java -"$JVM_MAX_MEMORY" -jar /McMyAdmin/Minecraft/spigot/BuildTools.jar --rev "$MINECRAFT_VERSION" > spigot.log 2>&1
+    cp /McMyAdmin/Minecraft/spigot/spigot-*.jar /McMyAdmin/Minecraft/
+    mv /McMyAdmin/Minecraft/minecraft_server.jar /McMyAdmin/Minecraft/minecraft_server.jar_backup
+    mv /McMyAdmin/Minecraft/spigot-*.jar /McMyAdmin/Minecraft/minecraft_server.jar
+    touch /McMyAdmin/Minecraft/spigot/.buildSuccess
+    echo "***** Spigot installation done!" ; else
+      echo  "***** Spigot is already installed."
+  fi
+}
+
+install_forge() {
+  # Install Forge if required
+  if [ ! -f /McMyAdmin/Minecraft/ForgeMod.jar ] ; then
+    echo "***** Installing Forge"
+    python3 /scripts/download_minecraft_forge.py
+    echo "***** Forge installation done!" ; else
+      echo  "***** Minecraft Forge is already installed."
+  fi
+}
+
+case ${MINECRAFT_FLAVOR^^} in
+    VANILLA )
+        install_vanilla
+    ;;
+    SPIGOT )
+        install_spigot
+    ;;
+    FORGE )
+        install_forge
+    ;;
+    * )
+        echo "$MINECRAFT_FLAVOR is unknown. Nothing will be done here..."
+    ;;
+esac
 
 # Configure McMyAdmin
 echo "***** Configuring McMyAdmin conf file"
