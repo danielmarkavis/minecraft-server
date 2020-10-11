@@ -1,7 +1,7 @@
 # minecraft-server
 A Minecraft server with: 
 - McMyAdmin
-- Spigot with ability to specify the Minecraft version
+- Ability to specify Mod/Flavor (Vanilla, Spigot, Forge) with ability to specify the Minecraft version
 - Fully configurable using environment variables
 - Volume to access all the configuration files later on
 
@@ -98,6 +98,7 @@ docker run -d \
     --restart unless-stopped \
     --stop-timeout 30 \
     -v McMyAdmin:/McMyAdmin \
+    -e MINECRAFT_FLAVOR=Forge \
     -e MINECRAFT_VERSION=1.12.2 \
     -e MCMA_PASSWORD=StrongPa55! \
     -e JAVA_MEMORY=3072 \
@@ -145,25 +146,39 @@ Specifying an invalid value will cause errors and nothing will work.
 | ------------------ | ------------- | ---------------------------------------------------------------------- |
 | JAVA_MAJOR_VERSION | 8             | Java major version                                                     |
 
-## Spigot settings
-This is only if you want to use Spigot build.
+## Mod settings
+This is only if you want to use Modded version of Minecraft.
+Specify the mod using `MINECRAFT_FLAVOR` environment variable.
+Options for the variable are: 
+- `Vanilla`
+- `Spigot`
+- `Forge`
+
+You can also specify the Minecraft version (1.12.2, 1.14, etc.). The default value is `latest`. 
+Specifying `latest` will use the latest version available.
+
+If `MINECRAFT_FLAVOR` is set to `Vanilla`, the `MINECRAFT_VERSION` is ignored (for now). 
+The installed version of Minecraft is the one that comes with McMyAdmin (possibly latest at the time of building the image).
+Installing other flavors/mods of Minecraft can also be configured in McMyAdmin GUI later on.
+
+### Vanilla
+To use Spigot build, the `MINECRAFT_FLAVOR` should be set to `Vanilla`. This is the default value.
+Currently, this does nothing. The Minecraft jar that came with McMyAdmin will be used.
+
+### Spigot
 This is Spigot: https://www.spigotmc.org/
+To use Spigot build, the `MINECRAFT_FLAVOR` should be set to `Spigot`.
 
-To use Spigot build, the `USE_SPIGOT` must be set to `true`. 
-This is set to `true` by default.
-
-If Spigot build is used, you can also specify the Minecraft version (1.12.2, 1.14, etc.). The default value is `latest`. 
-Specifying `latest` will use the latest version available. The environment variable for this is `MINECRAFT_VERSION`.
-This version is then used when building Spigot jar file. 
+The environment variable `MINECRAFT_VERSION` is used when building Spigot jar file. 
 Available versions are outlined here: https://www.spigotmc.org/wiki/buildtools/
 
-If `USE_SPIGOT` is set to `false`, the `MINECRAFT_VERSION` is ignored. 
-The installed version of Minecraft is the one that comes with McMyAdmin (latest).
-Installing Spigot, and other flavors of Minecraft can also be configured in McMyAdmin GUI later on.
+**Important**: Spigot is built on the first start of the container. 
+This take a lot of time, so be patient. 
+Check the container log by using `docker logs` command. Once you are past "Installing Spigot" the container will soon finish its entrypoint commands and your McMyAdmin will be ready.
 
 | Variable           | Default value | Description                                                            |
 | ------------------ | ------------- | ---------------------------------------------------------------------- |
-| USE_SPIGOT         | true          | Install Spigot                                                         |
+| MINECRAFT_FLAVOR   | Vanilla       | Specify which Minecraft Flavor/Mod to install                          |
 | MINECRAFT_VERSION  | latest        | Minecraft version                                                      |
 
 ## McMyAdmin password
@@ -250,6 +265,7 @@ Resources and technologies used:
 - Minecraft: https://www.minecraft.net/
 - McMyAdmin: https://mcmyadmin.com/
 - Spigot: https://www.spigotmc.org/
+- Forge: http://files.minecraftforge.net/
 - Java: https://www.java.com/
 - Docker: https://www.docker.com/
 - Bash: https://www.gnu.org/software/bash/
