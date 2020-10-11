@@ -1,7 +1,6 @@
 import os
-import pipes
+import subprocess
 from time import sleep
-import sys
 
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -42,12 +41,17 @@ try:
         universal_download_url = universal_box_element.find_element_by_xpath("..").get_attribute("href")
         direct_download_link = "https://" + str(universal_download_url).split("https://", 2)[2]
 
-        # print(f"Setting {direct_download_link} as value of MINECRAFT_FORGE_SERVER_DOWNLOAD_LINK environment variable")
-        # os.environ["MINECRAFT_FORGE_SERVER_DOWNLOAD_LINK"] = str(direct_download_link)
-        # print("export MINECRAFT_FORGE_SERVER_DOWNLOAD_LINK=%s" % (pipes.quote(str(direct_download_link))))
-
-        print(str(direct_download_link))
-        sys.exit(0)
+        target_file_path = "/McMyAdmin/Minecraft/minecraft_server.jar"
+        bashCommand = f'mv {target_file_path} {target_file_path}_backup'
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        print(output)
+        print(error)
+        bashCommand = f'wget -O {target_file_path} {direct_download_link}'
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        print(output)
+        print(error)
 except:
     print("***** An error occurred!")
 finally:

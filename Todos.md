@@ -85,5 +85,5 @@ docker run -d \
 ```
 Remove
 ```
-docker stop mc && docker rm mc && docker image rm mc && docker images prune
+docker stop mc && docker rm mc && docker image rm mc && docker images prune && docker volume rm mc
 ```

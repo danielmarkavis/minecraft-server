@@ -22,10 +22,7 @@ install_spigot() {
 install_forge() {
   # Install Forge if required
   echo "***** Installing Forge"
-  LINK=eval $(python3 /scripts/download_minecraft.py)
-  mv /McMyAdmin/Minecraft/minecraft_server.jar /McMyAdmin/Minecraft/minecraft_server.jar_backup
-#  wget -O /McMyAdmin/Minecraft/minecraft_server.jar "$MINECRAFT_FORGE_SERVER_DOWNLOAD_LINK"
-  wget -O /McMyAdmin/Minecraft/minecraft_server.jar "$LINK"
+  python3 /scripts/download_minecraft_forge.py
   echo "***** Forge installation done!"
 }
 

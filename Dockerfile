@@ -160,7 +160,7 @@ WORKDIR /McMyAdmin/
 VOLUME /McMyAdmin/
 
 # Start
-ADD scripts/mods/download_minecraft.py /scripts/
+ADD scripts/mods/download_minecraft_forge.py /scripts/
 ADD scripts/startup.sh /scripts/
 ADD scripts/entrypoint.sh /scripts/
 RUN chmod a+x /scripts/startup.sh && \
