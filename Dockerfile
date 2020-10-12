@@ -160,11 +160,9 @@ WORKDIR /McMyAdmin/
 VOLUME /McMyAdmin/
 
 # Start
-ADD scripts/mods/download_minecraft_vanilla.py /scripts/
-ADD scripts/mods/download_minecraft_forge.py /scripts/
-ADD scripts/startup.sh /scripts/
-ADD scripts/entrypoint.sh /scripts/
+ADD scripts/ /scripts/
 RUN chmod a+x /scripts/startup.sh && \
-    chmod a+x /scripts/entrypoint.sh
+    chmod a+x /scripts/entrypoint.sh && \
+    ls -lah /scripts/
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/scripts/startup.sh"]

@@ -72,8 +72,10 @@ Specifies the container name. You can change the `minecraft-server` to whatever 
 ##### `-p 8080:8080` and `-p 25565:25565`
 Publishes a container's port to the host. So, container's port `8080` is published to port `8080` on the host.
 
-In case, for example, the port `8080` is used by another app on your host, you can do the following: `-p 8080:8081`.
+In case, for example, the port `8080` is used by another app on your host, you can do the following: `-p 8081:8080`.
 This would publish `8080` in container to `8081` on the host. Your McMyAdmin web panel would be at `http://localhost:8081` in that case.
+
+More on ports can be found here: https://docs.docker.com/config/containers/container-networking/#published-ports
 ##### `--restart unless-stopped`
 Restarts the container automatically, unless it is stopped intentionally. Good if the container crashes - it will restart automatically.
 ##### `--stop-timeout 30` 
