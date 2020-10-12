@@ -15,8 +15,8 @@ def execute_bash_commands(commands: []):
         print(f"***** Executing command: {command_for_print}")
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = process.communicate()
-        print(output)
-        print(error)
+        print(f"***** Output: {output}")
+        print(f"***** Error: {error}")
         print(f"***** Execution of {command_for_print} is done!\n")
 
 

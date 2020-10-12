@@ -10,6 +10,7 @@ class EnvironmentToMcmaMapping(enum.Enum):
     JAVA_MEMORY = "Java.Memory"
     JAVA_GC = "Java.GC"
     JAVA_CUSTOM_OPTS = "Java.CustomOpts"
+    SERVER_TYPE = "Server.ServerType"
 
 
 class EnvironmentToMinecraftPropertiesMapping(enum.Enum):

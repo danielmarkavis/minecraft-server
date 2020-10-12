@@ -47,14 +47,10 @@ try:
     path = "/McMyAdmin/Minecraft"
     file_path_to_backup = f"{path}/minecraft_server.jar"
     installer_file_path = f"{path}/forge-installer.jar"
-    forge_mod_file_path = f"{path}/ForgeMod.jar"
 
     commands = [
         ["mv", file_path_to_backup, f"{file_path_to_backup}_backup"],
         ["wget", "-O", installer_file_path, direct_download_link],
-        ["java", "-jar", installer_file_path, "--installServer"],
-        ["rm", installer_file_path],
-        ["mv", f"{path}/forge-*.jar", forge_mod_file_path]
     ]
     execute_bash_commands(commands)
 except:
