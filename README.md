@@ -133,7 +133,7 @@ Do not just stop the container without stopping the Minecraft server, so your wo
 To manage your containers, there is a nifty tool for that called Portainer. Check it out: https://www.portainer.io/
 
 # Environment variables
-The *Recommended value* column in (some tables below) outlines the values that I personally use for my own server.
+The *Recommended value* column (in some tables below) outlines the values that I personally use for my own server.
 This does not mean that the values I provided are in any sense better than the default ones.
 Apply the best values for your server. Do not bluntly copy/paste the values from others.
 Custom values are passed using environment variables on `docker run` command using `-e` parameter.
@@ -156,7 +156,8 @@ Options for the variable are:
 - `Spigot`
 - `Forge`
 
-You can also specify the Minecraft version (1.12.2, 1.14, etc.). The default value is `latest`. 
+You can also specify the Minecraft version (`1.12.2`, `1.14`, etc.) using the `MINECRAFT_FLAVOR` variable. 
+The default value is `latest`. 
 Specifying `latest` will use the latest version available.
 
 If `MINECRAFT_FLAVOR` is set to `Vanilla`, the `MINECRAFT_VERSION` is ignored (for now). 

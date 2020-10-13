@@ -162,7 +162,6 @@ VOLUME /McMyAdmin/
 # Start
 ADD scripts/ /scripts/
 RUN chmod a+x /scripts/startup.sh && \
-    chmod a+x /scripts/entrypoint.sh && \
-    ls -lah /scripts/
+    chmod a+x /scripts/entrypoint.sh
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/scripts/startup.sh"]
