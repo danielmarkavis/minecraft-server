@@ -293,3 +293,52 @@ Resources and technologies used:
 
 ### McMyAdmin additional configuration
 - Whitelisting users in McMyAdmin2 (so only specific people can join your server): https://bymatej.com/how-to-set-up-a-minecraft-java-edition-server-with-mcmyadmin2-on-linux/#Whitelisting
+
+
+# How I run my server
+## Reasoning
+I have several servers, but they are never on at the same time. The reason for that is: 
+- lack of RAM on my server machine
+- ports clashing
+- there is no need for that, as I am always playing
+
+If you have more RAM, you can run many containers on your machine.
+
+As for the ports clashing... I am running my server on the port `8080` on the host machine.
+I cannot run multiple servers on the same port, obviously. 
+I could use another port on host machine (for example, `8081`), but then I need to forward it on my router.
+Port forwarding is easy when I am at my home (where my router is). However, I don't have any remote management settings enabled on it.
+Bottom line is - if I am not home I cannot spin up a new server on a new port.
+I could leave a range of ports open, but I simply don't want to do it.
+
+Also, I am always playing on my servers. I don't manage a server that is open for everyone. 
+It is for me and for fun with my family and friends.
+
+## Steps to run the server
+### Server #1 - Minecraft Forge version 1.12.2 with mods
+#### Mods I use
+Mods used are: 
+- https://www.curseforge.com/minecraft/mc-mods/immersive-engineering/files/2676501
+- https://www.curseforge.com/minecraft/mc-mods/obfuscate/files/2625165
+- https://www.curseforge.com/minecraft/mc-mods/techguns/files/2958103
+- https://www.dropbox.com/s/p22np06hizycall/vehicle-0.44.1-mc1.12.2.jar?dl=1
+
+More info here: https://github.com/bymatej/minecraft-java-server-install-script#mods
+
+#### Steps I take
+1. Prepare `docker run` command to use Forge
+2. Execute `docker run` command
+3. Download all the JAR files from all the mods
+4. Upload them somewhere where I can download them using `wget` command (private hosting, dropbox, etc.)
+5. Go to Portainer and exec into the container where my server is (or I go to the host machine and execute `docker exec -ti minecraft-server /bin/bash`)
+6. Switch to the `dockeruser` user using `su dockeruser` command
+7. Go inside mods folder by using `cd /McMyAdmin/Minecraft/mods` command
+8. Run `wget` commands to download the mods from where I uploaded them. For example: `wget https://www.dropbox.com/s/p22np06hizycall/vehicle-0.44.1-mc1.12.2.jar`
+9. After all mods are downloaded I start my server on my McMyAdmin console
+
+### Server #2 - Minecraft Vanilla latest version
+#### Steps I take
+1. Prepare your `docker run` command to use Vanilla
+2. Execute your `docker run` command
+3. Go to McMyAdmin console and start my server
+

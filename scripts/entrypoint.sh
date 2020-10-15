@@ -6,11 +6,11 @@ echo " -------------------- "
 
 install_vanilla() {
   # Install vanilla if required
+  export SERVER_TYPE=Official
   if [ ! -f /McMyAdmin/Minecraft/.vanillaInstalled ] ; then
     echo "***** Installing Vanilla"
     python3 /scripts/download_minecraft_vanilla.py
     touch /McMyAdmin/Minecraft/.vanillaInstalled
-    export SERVER_TYPE=Official
     echo "***** Vanilla installation done!" ; else
       echo  "***** Minecraft Forge is already installed."
   fi
@@ -18,6 +18,7 @@ install_vanilla() {
 
 install_spigot() {
   # Install Spigot if required
+  export SERVER_TYPE=Official
   if [ ! -f /McMyAdmin/Minecraft/spigot/.buildSuccess ] ; then
     echo "***** Installing Spigot"
     JVM_MAX_MEMORY="Xmx${JAVA_MEMORY}M"
@@ -26,7 +27,6 @@ install_spigot() {
     cp /McMyAdmin/Minecraft/spigot/spigot-*.jar /McMyAdmin/Minecraft/
     mv /McMyAdmin/Minecraft/minecraft_server.jar /McMyAdmin/Minecraft/minecraft_server.jar_backup
     mv /McMyAdmin/Minecraft/spigot-*.jar /McMyAdmin/Minecraft/minecraft_server.jar
-    export SERVER_TYPE=Official
     touch /McMyAdmin/Minecraft/spigot/.buildSuccess
     echo "***** Spigot installation done!" ; else
       echo  "***** Spigot is already installed."
@@ -34,6 +34,7 @@ install_spigot() {
 }
 
 install_forge() {
+  export SERVER_TYPE=Forge
   # Install Forge if required
   if [ ! -f /McMyAdmin/Minecraft/ForgeMod.jar ] ; then
     echo "***** Installing Forge"
@@ -42,7 +43,6 @@ install_forge() {
     java -jar /McMyAdmin/Minecraft/forge-installer.jar --installServer /McMyAdmin/Minecraft
     rm /McMyAdmin/Minecraft/forge-installer.jar
     mv /McMyAdmin/Minecraft/forge-*.jar /McMyAdmin/Minecraft/ForgeMod.jar
-    export SERVER_TYPE=Forge
     echo "***** Forge installation done!" ; else
       echo  "***** Minecraft Forge is already installed."
   fi
