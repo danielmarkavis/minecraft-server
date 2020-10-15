@@ -59,17 +59,28 @@ case ${MINECRAFT_FLAVOR^^} in
         install_forge
     ;;
     * )
-        echo "$MINECRAFT_FLAVOR is unknown. Nothing will be done here..."
+        echo "$MINECRAFT_FLAVOR is unknown. Vanilla flavor will be installed instead..."
+        install_vanilla
     ;;
 esac
 
-# Configure McMyAdmin
+# Configure McMyAdmin if required
 echo "***** Configuring McMyAdmin conf file"
-python3 /scripts/configure_mcma.py
+if [ ! -f /McMyAdmin/.mcma_configured ] ; then
+  python3 /scripts/configure_mcma.py
+  touch /McMyAdmin/.mcma_configured
+  echo "***** McMyAdmin configuration is done!" ; else
+      echo  "***** McMyAdmin is already configured."
+fi
 
-# Configure Minecraft
+# Configure Minecraft if required
 echo "***** Configuring Minecraft server properties file"
-python3 /scripts/configure_minecraft.py
+if [ ! -f /McMyAdmin/Minecraft/.minecraft_configured ] ; then
+  python3 /scripts/configure_minecraft.py
+  touch /McMyAdmin/Minecraft/.minecraft_configured
+  echo "***** Minecraft server properties configuration is done!" ; else
+      echo  "***** Minecraft server properties are already configured."
+fi
 
 cd /McMyAdmin/
 echo "***** Starting up..."

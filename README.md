@@ -133,6 +133,10 @@ Do not just stop the container without stopping the Minecraft server, so your wo
 To manage your containers, there is a nifty tool for that called Portainer. Check it out: https://www.portainer.io/
 
 # Environment variables
+Variables are used to configure your McMyAdmin and Minecraft server on the first run (when executing `docker run` command).
+Subsequent container runs will skip the configuration. 
+You don't want to "reconfigure" your server as the settings you changed in McMyAdmin after the first run would get replaced by the ones specified in the environment variables.
+
 The *Recommended value* column (in some tables below) outlines the values that I personally use for my own server.
 This does not mean that the values I provided are in any sense better than the default ones.
 Apply the best values for your server. Do not bluntly copy/paste the values from others.
