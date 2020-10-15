@@ -87,7 +87,8 @@ RUN echo "***** Updating and installing required software and tools" && \
                              screen \
                              dumb-init \
                              gosu \
-                             firefox-geckodriver
+                             firefox-geckodriver \
+                             nano
 
 # Install Python dependencies
 ADD scripts/requirements.txt /scripts/requirements.txt
