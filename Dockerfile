@@ -77,6 +77,7 @@ RUN echo "***** Updating and installing required software and tools" && \
     apt --assume-yes update && \
     apt --assume-yes install openjdk-$JAVA_MAJOR_VERSION-jdk-headless \
                              wget \
+                             zip \
                              unzip \
                              python3 \
                              python3-pip \
