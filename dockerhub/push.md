@@ -2,7 +2,7 @@
 
 ## Log in
 ```
-docker login --username bymatej --password-stdin
+docker login --username bymatej --password pass
 ```
 
 ## Build
