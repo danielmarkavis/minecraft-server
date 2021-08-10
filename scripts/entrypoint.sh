@@ -4,6 +4,25 @@ set -e
 echo "***** Entrypoint..."
 echo " -------------------- "
 
+install_java() {
+  # Update system
+  echo "Running apt -y update"
+  apt -y update
+
+  # Install java
+  echo "Installing Java version $JAVA_MAJOR_VERSION"
+  apt -y install openjdk-"$JAVA_MAJOR_VERSION"-jdk-headless
+
+  # Set JAVA_HOME environment variable
+  JAVA_HOME="/usr/lib/jvm/java-${JAVA_MAJOR_VERSION}-openjdk-amd64/jre/bin/java"
+  echo "***** Setting JAVA_HOME environment variable" && \
+  echo "JAVA_HOME=/usr/lib/jvm/java-${JAVA_MAJOR_VERSION}-openjdk-amd64/jre/bin/java" >> /etc/profile && \
+  echo "PATH=${PATH}:${HOME}/bin:${JAVA_HOME}/bin" >> /etc/profile && \
+  echo "export JAVA_HOME" >> /etc/profile && \
+  echo "export JRE_HOME" >> /etc/profile && \
+  echo "export PATH" >> /etc/profile
+}
+
 install_vanilla() {
   # Install vanilla if required
   export SERVER_TYPE=Official

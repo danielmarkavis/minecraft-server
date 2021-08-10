@@ -49,12 +49,9 @@ def get_direct_download_link() -> str:
     browser.get(download_link)
     sleep(5)
 
-    download_buttons_xpath = "//div[contains(@class, 'downloads')]" \
-                             "//div[contains(@class, 'download')]"
-    download_button_elements = browser.find_elements_by_xpath(download_buttons_xpath)
-    for download_button in download_button_elements:
-        if "server jar" in str(download_button.find_element_by_tag_name("h5").text).lower():
-            return str(download_button.find_element_by_tag_name("a").get_attribute("href"))
+    for a in browser.find_elements_by_tag_name("a"):
+        if str(a.get_attribute("download")).startswith("minecraft_server-"):
+            return str(a.get_attribute("href"))
 
 
 # MAIN CODE #

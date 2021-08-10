@@ -71,16 +71,11 @@ ENV ENABLE_JMX_MONITORING=false \
     RESOURCE_PACK_SHA1="" \
     SPAWN_PROTECTION=16 \
     MAX_WORLD_SIZE=29999984
-    
-# Just run the update on it's own in a separate step
-RUN echo $JAVA_MAJOR_VERSION
-RUN apt -y update
 
 # Update and install required software and tools
 RUN echo "***** Updating and installing required software and tools" && \
     apt --assume-yes update && \
-    apt --assume-yes install openjdk-$JAVA_MAJOR_VERSION-jdk-headless \
-                             wget \
+    apt --assume-yes install wget \
                              zip \
                              unzip \
                              python3 \
@@ -104,15 +99,6 @@ RUN echo "***** Running general system setup" && \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
-
-# Set JAVA_HOME environment variable
-ENV JAVA_HOME=/usr/lib/jvm/java-$JAVA_MAJOR_VERSION-openjdk-amd64/jre/bin/java
-RUN echo "***** Setting JAVA_HOME environment variable" && \
-    echo "JAVA_HOME=/usr/lib/jvm/java-$JAVA_MAJOR_VERSION-openjdk-amd64/jre/bin/java" >> /etc/profile && \
-    echo "PATH=$PATH:$HOME/bin:$JAVA_HOME/bin" >> /etc/profile && \
-    echo "export JAVA_HOME" >> /etc/profile && \
-    echo "export JRE_HOME" >> /etc/profile && \
-    echo "export PATH" >> /etc/profile
 
 # Download and install Mono for McMyAdmin
 WORKDIR /usr/local
