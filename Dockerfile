@@ -5,7 +5,7 @@ LABEL maintainer="programming@bymatej.com"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Environment variables used for setting up the system
-ENV JAVA_MAJOR_VERSION=8
+ENV JAVA_MAJOR_VERSION=16
 
 # Environment variables used for Mod installation
 ENV MINECRAFT_FLAVOR="Vanilla"
