@@ -71,6 +71,9 @@ ENV ENABLE_JMX_MONITORING=false \
     RESOURCE_PACK_SHA1="" \
     SPAWN_PROTECTION=16 \
     MAX_WORLD_SIZE=29999984
+    
+# Just run the update on it's own in a separate step
+RUN apt -y update
 
 # Update and install required software and tools
 RUN echo "***** Updating and installing required software and tools" && \
