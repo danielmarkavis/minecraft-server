@@ -1,5 +1,10 @@
 # Push the new version/tag to docker hub
 
+## Pull the latest code from this repo
+```
+git pull
+```
+
 ## Log in
 ```
 docker login --username bymatej --password pass
