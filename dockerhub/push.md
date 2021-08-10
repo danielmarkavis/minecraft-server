@@ -2,7 +2,7 @@
 
 ## Pull the latest code from this repo
 ```
-git pull
+/home/matej/projects/minecraft-server && git pull
 ```
 
 ## Log in
