@@ -4,6 +4,10 @@ LABEL maintainer="programming@bymatej.com"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Define volumes
+VOLUME /McMyAdmin/
+WORKDIR /McMyAdmin/
+
 # Environment variables used for setting up the system
 ENV JAVA_MAJOR_VERSION=16
 
@@ -156,10 +160,6 @@ RUN echo "***** Cleaning up" && \
 
 # Expose ports
 EXPOSE 8080 25565
-
-# Define volumes
-WORKDIR /McMyAdmin/
-VOLUME /McMyAdmin/
 
 # Start
 ADD scripts/ /scripts/
